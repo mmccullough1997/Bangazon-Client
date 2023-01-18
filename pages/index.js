@@ -1,24 +1,19 @@
-import { signOut } from '../utils/auth';
-import { useAuth } from '../utils/context/authContext';
+import { useEffect, useState } from 'react';
+import MinimalProductCard from '../components/products/MinimalProductCard';
+import getProducts from '../utils/data/productData';
 
 function Home() {
-  const { user } = useAuth();
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    getProducts().then(setProducts);
+  }, []);
 
   return (
-    <div
-      className="text-center d-flex flex-column justify-content-center align-content-center"
-      style={{
-        height: '90vh',
-        padding: '30px',
-        maxWidth: '400px',
-        margin: '0 auto',
-      }}
-    >
-      <h1>Hello {user.displayName}! </h1>
-      <p>Click the button below to logout!</p>
-      <button className="btn btn-danger btn-lg copy-btn" type="button" onClick={signOut}>
-        Sign Out
-      </button>
+    <div>
+      {products.map((product) => (
+        <MinimalProductCard key={product.id} image={product.image} title={product.title} cost={product.cost} productId={product.id} />
+      ))}
     </div>
   );
 }

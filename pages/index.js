@@ -5,7 +5,7 @@ import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import MinimalProductCard from '../components/products/MinimalProductCard';
-import getProducts from '../utils/data/productData';
+import { getProducts } from '../utils/data/productData';
 import ProductCarousel from '../components/products/ProductCarousel';
 
 function Home() {

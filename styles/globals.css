@@ -59,3 +59,8 @@ body {
   width: 100vw;
   height: 150vh;
 }
+
+.productDetailImage{
+  max-width: 700px;
+  max-height: 500px;
+}

@@ -1,14 +1,17 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
+import { useRouter } from 'next/router';
 import Carousel from 'react-bootstrap/Carousel';
 import PropTypes from 'prop-types';
 
 export default function ProductCarousel({ shuffledProducts }) {
+  const router = useRouter();
+
   return (
     <Carousel>
       {shuffledProducts.map((shuffledProduct) => (
-        <Carousel.Item key={shuffledProduct.id} className="carousel">
+        <Carousel.Item key={shuffledProduct.id} className="carousel" onClick={() => router.push(`/products/${shuffledProduct.id}`)}>
           <img
             className="d-block w-100"
             src={shuffledProduct.image}

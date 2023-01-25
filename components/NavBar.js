@@ -141,7 +141,7 @@ export default function MiniDrawer() {
           </div>
           <Grid container justifyContent="flex-end">
             <div className="topNavIcons">
-              <Link passHref href="/">
+              <Link passHref href="/cart/myCart">
                 <ShoppingCartIcon fontSize="large" className="addIcon" style={{ color: 'white' }} />
               </Link>
               <MuiButton

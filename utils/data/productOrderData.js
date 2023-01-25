@@ -2,6 +2,12 @@ import { clientCredentials } from '../client';
 
 const dbUrl = clientCredentials.databaseURL;
 
+const getProductOrders = () => new Promise((resolve, reject) => {
+  fetch(`${dbUrl}/productorders`).then((response) => response.json())
+    .then(resolve)
+    .catch(reject);
+});
+
 const createProductOrder = (productOrderObj, user) => new Promise((resolve, reject) => {
   const productOrder = {
     product: productOrderObj.product,
@@ -19,4 +25,4 @@ const createProductOrder = (productOrderObj, user) => new Promise((resolve, reje
     .catch((error) => reject(error));
 });
 
-export default createProductOrder;
+export { getProductOrders, createProductOrder };

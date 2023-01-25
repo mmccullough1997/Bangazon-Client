@@ -6,7 +6,7 @@ import { Card, Button, Form } from 'react-bootstrap';
 import { Avatar, Button as MuiButton } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useAuth } from '../../utils/context/authContext';
-import createProductOrder from '../../utils/data/productOrderData';
+import { createProductOrder } from '../../utils/data/productOrderData';
 import { updateProduct } from '../../utils/data/productData';
 
 function ProductDetailsCard({ product }) {
@@ -30,7 +30,7 @@ function ProductDetailsCard({ product }) {
       const productObj = product;
       productObj.quantity -= desiredQuantity;
       updateProduct(productObj, productObj.id);
-      router.push('/');
+      router.push('/cart/myCart');
     });
   };
 

@@ -62,29 +62,34 @@ function ProductDetailsCard({ product }) {
               <Card.Text>{product?.description}</Card.Text>
               <Card.Text>{product.productType?.label}</Card.Text>
             </div>
-            <Form onSubmit={handleSubmit}>
-              <Form.Select
-                onChange={handleChange}
-                name="quantity"
-                value={desiredQuantity}
-                required
-              >
-                <option
-                  value=""
+            {product.quantity < 1 ? (
+              <div>Out of Stock</div>
+            ) : (
+              <Form onSubmit={handleSubmit}>
+                <Form.Select
+                  onChange={handleChange}
+                  name="quantity"
+                  value={desiredQuantity}
+                  required
                 >
-                  Quantity
-                </option>
-                {availableQuantity.length
-                  ? availableQuantity?.map((quantity) => (
-                    <option key={quantity} value={quantity}>{quantity}</option>
-                  ))
-                  : <option value={availableQuantity[0]}>{availableQuantity[0]}</option>}
-              </Form.Select>
+                  <option
+                    value=""
+                  >
+                    Quantity
+                  </option>
+                  {availableQuantity.length
+                    ? availableQuantity?.map((quantity) => (
+                      <option key={quantity} value={quantity}>{quantity}</option>
+                    ))
+                    : <option value={availableQuantity[0]}>{availableQuantity[0]}</option>}
+                </Form.Select>
 
-              <Button type="submit">
-                Add to Cart
-              </Button>
-            </Form>
+                <Button type="submit">
+                  Add to Cart
+                </Button>
+              </Form>
+
+            )}
 
           </div>
         </Card.Body>

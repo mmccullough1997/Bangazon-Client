@@ -2,31 +2,41 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Card } from 'react-bootstrap';
+import { Card, Button, Form } from 'react-bootstrap';
 import { Avatar, Button as MuiButton } from '@mui/material';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-// import Button from '@mui/material/Button';
-// import DeleteIcon from '@mui/icons-material/Delete';
-// import EditIcon from '@mui/icons-material/Edit';
 import { useRouter } from 'next/router';
-// import { useAuth } from '../../utils/context/authContext';
+import { useAuth } from '../../utils/context/authContext';
+import createProductOrder from '../../utils/data/productOrderData';
+import { updateProduct } from '../../utils/data/productData';
 
 function ProductDetailsCard({ product }) {
   const router = useRouter();
+  const { user } = useAuth();
   const [availableQuantity, setAvailableQuantity] = React.useState(1);
   const [desiredQuantity, setDesiredQuantity] = React.useState(1);
 
   const handleChange = (event) => {
-    setDesiredQuantity(event.target.value);
+    const { value } = event.target;
+    setDesiredQuantity(value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const productOrderObj = {
+      product: product.id,
+      quantity: desiredQuantity,
+    };
+    createProductOrder(productOrderObj, user).then(() => {
+      const productObj = product;
+      productObj.quantity -= desiredQuantity;
+      updateProduct(productObj, productObj.id);
+      router.push('/');
+    });
   };
 
   useEffect(() => {
     setAvailableQuantity([...Array(product.quantity).keys()].map((i) => i + 1));
-    console.warn('h');
-  }, []);
+  }, [product]);
 
   return (
     <>
@@ -52,22 +62,30 @@ function ProductDetailsCard({ product }) {
               <Card.Text>{product?.description}</Card.Text>
               <Card.Text>{product.productType?.label}</Card.Text>
             </div>
-            <FormControl>
-              <InputLabel id="demo-simple-select-label">Quantity</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={desiredQuantity}
-                label="Quantity"
+            <Form onSubmit={handleSubmit}>
+              <Form.Select
                 onChange={handleChange}
+                name="quantity"
+                value={desiredQuantity}
+                required
               >
+                <option
+                  value=""
+                >
+                  Quantity
+                </option>
                 {availableQuantity.length
                   ? availableQuantity?.map((quantity) => (
-                    <MenuItem value={quantity}>{quantity}</MenuItem>
+                    <option key={quantity} value={quantity}>{quantity}</option>
                   ))
-                  : <MenuItem value={availableQuantity[0]}>{availableQuantity[0]}</MenuItem>}
-              </Select>
-            </FormControl>
+                  : <option value={availableQuantity[0]}>{availableQuantity[0]}</option>}
+              </Form.Select>
+
+              <Button type="submit">
+                Add to Cart
+              </Button>
+            </Form>
+
           </div>
         </Card.Body>
       </Card>
@@ -81,7 +99,7 @@ ProductDetailsCard.propTypes = {
     title: PropTypes.string,
     image: PropTypes.string,
     description: PropTypes.string,
-    cost: PropTypes.number,
+    cost: PropTypes.string,
     quantity: PropTypes.number,
     seller: PropTypes.shape({
       id: PropTypes.number,

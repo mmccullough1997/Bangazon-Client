@@ -24,4 +24,23 @@ const getSingleProduct = (productId) => new Promise((resolve, reject) => {
     }).catch((error) => reject(error));
 });
 
-export { getProducts, getSingleProduct };
+const updateProduct = (product, productId) => new Promise((resolve, reject) => {
+  const productObj = {
+    title: product.title,
+    cost: product.cost,
+    description: product.description,
+    quantity: product.quantity,
+    image: product.image,
+    product_type: product.productType.id,
+    seller: product.seller.id,
+  };
+  fetch(`${dbUrl}/products/${productId}`, {
+    method: 'PUT',
+    body: JSON.stringify(productObj),
+    headers: { 'Content-Type': 'application/json' },
+  })
+    .then((response) => resolve(response))
+    .catch((error) => reject(error));
+});
+
+export { getProducts, getSingleProduct, updateProduct };

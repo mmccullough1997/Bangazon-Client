@@ -97,7 +97,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-export default function MiniDrawer() {
+export default function NavBar() {
   const { user } = useAuth();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -170,7 +170,7 @@ export default function MiniDrawer() {
               >
                 <MenuItem onClick={handleClose}>
                   <MuiButton onClick={signOut}><LogoutIcon /> Sign Out</MuiButton>
-                  <Link passHref href="/"><MuiButton><AccountCircleIcon />Profile</MuiButton></Link>
+                  <Link passHref href={`/customers/${user.id}`}><MuiButton><AccountCircleIcon />Profile</MuiButton></Link>
                   <Link passHref href="/"><MuiButton><StoreIcon />My Orders</MuiButton></Link>
                 </MenuItem>
               </Menu>
@@ -238,7 +238,7 @@ export default function MiniDrawer() {
           <hr style={{ color: 'white' }} />
 
           <ListItem disablePadding sx={{ display: 'block' }}>
-            <Link passHref href="/">
+            <Link passHref href="/products/new">
               <ListItemButton
                 sx={{
                   minHeight: 48,

@@ -43,4 +43,27 @@ const updateProduct = (product, productId) => new Promise((resolve, reject) => {
     .catch((error) => reject(error));
 });
 
-export { getProducts, getSingleProduct, updateProduct };
+const createProduct = (product, user) => new Promise((resolve, reject) => {
+  const productObj = {
+    title: product.title,
+    cost: product.cost,
+    description: product.description,
+    quantity: product.quantity,
+    image: product.image,
+    product_type: Number(product.productType),
+    seller: user.id,
+  };
+  fetch(`${dbUrl}/products`, {
+    method: 'POST',
+    body: JSON.stringify(productObj),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => resolve(response.json()))
+    .catch((error) => reject(error));
+});
+
+export {
+  getProducts, getSingleProduct, updateProduct, createProduct,
+};

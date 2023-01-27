@@ -84,9 +84,13 @@ function ProductDetailsCard({ product }) {
                     : <option value={availableQuantity[0]}>{availableQuantity[0]}</option>}
                 </Form.Select>
 
-                <Button type="submit">
-                  Add to Cart
-                </Button>
+                { user.id === product?.seller?.id ? (
+                  <div />
+                ) : (
+                  <Button type="submit">
+                    Add to Cart
+                  </Button>
+                )}
               </Form>
 
             )}

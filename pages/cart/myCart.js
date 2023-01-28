@@ -33,7 +33,6 @@ export default function myCart() {
       paymentType: desiredPaymentType,
     };
     createOrder(order, user).then(() => {
-      // router.push('/orders/orderConfirmation');
       getOrdersByCustomer(user.id).then((resp) => {
         productOrders.forEach((productOrder) => {
           updateProductOrder(user, productOrder, resp.slice(-1).pop());

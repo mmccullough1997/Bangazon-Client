@@ -24,15 +24,15 @@ const getSingleProduct = (productId) => new Promise((resolve, reject) => {
     }).catch((error) => reject(error));
 });
 
-const updateProduct = (product, productId) => new Promise((resolve, reject) => {
+const updateProduct = (user, product, productId) => new Promise((resolve, reject) => {
   const productObj = {
     title: product.title,
     cost: product.cost,
     description: product.description,
     quantity: product.quantity,
     image: product.image,
-    product_type: product.productType.id,
-    seller: product.seller.id,
+    product_type: product.productType,
+    seller: user.id,
   };
   fetch(`${dbUrl}/products/${productId}`, {
     method: 'PUT',
@@ -64,6 +64,14 @@ const createProduct = (product, user) => new Promise((resolve, reject) => {
     .catch((error) => reject(error));
 });
 
+const deleteProduct = (productId) => new Promise((resolve, reject) => {
+  fetch(`${dbUrl}/products/${productId}`, {
+    method: 'DELETE',
+  })
+    .then(resolve)
+    .catch(reject);
+});
+
 export {
-  getProducts, getSingleProduct, updateProduct, createProduct,
+  getProducts, getSingleProduct, updateProduct, createProduct, deleteProduct,
 };

@@ -1,10 +1,11 @@
-// import { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { TextField } from '@mui/material';
 import Button from '@mui/material/Button';
 import getProductTypes from '../../utils/data/productTypeData';
+import { createProduct, getSingleProduct, updateProduct } from '../../utils/data/productData';
 
 const initialProductState = {
   title: '',
@@ -12,27 +13,39 @@ const initialProductState = {
   description: '',
   quantity: 0,
   image: '',
-  productTypeId: null,
+  productType: null,
 };
 
 export default function ProductForm({ productObj, user }) {
   const [currentProduct, setCurrentProduct] = useState(initialProductState);
   const [productTypes, setProductTypes] = useState([]);
   const [desiredProductTypes, setDesiredProductTypes] = useState([]);
-  // const router = useRouter();
+  const router = useRouter();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.warn('hello', user);
+    if (productObj.id) {
+      updateProduct(user, currentProduct, currentProduct.id).then(() => {
+        router.push('/');
+      });
+    } else {
+      createProduct(currentProduct, user).then(() => {
+        router.push('/');
+      });
+    }
   };
 
   useEffect(() => {
     getProductTypes().then(setProductTypes);
+    if (productObj.id) {
+      getSingleProduct(productObj.id).then(setCurrentProduct);
+      setDesiredProductTypes(productObj.productType.id);
+    }
   }, [productObj]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === 'productTypeId') {
+    if (name === 'productType') {
       setDesiredProductTypes(value);
       setCurrentProduct((prevState) => ({
         ...prevState,
@@ -71,7 +84,7 @@ export default function ProductForm({ productObj, user }) {
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Select onChange={handleChange} className="mb-3" name="productTypeId" value={desiredProductTypes} required>
+          <Form.Select onChange={handleChange} className="mb-3" name="productType" value={desiredProductTypes} required>
             <option value="">Select a Product Type</option>
             {productTypes.map((productType) => (
               <option key={productType.id} value={productType.id}>

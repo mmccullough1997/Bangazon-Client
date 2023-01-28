@@ -72,6 +72,12 @@ const deleteProduct = (productId) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
+const getProductsBySeller = (customerId) => new Promise((resolve, reject) => {
+  fetch(`${dbUrl}/products?seller=${customerId}`)
+    .then((response) => resolve(response.json()))
+    .catch(reject);
+});
+
 export {
-  getProducts, getSingleProduct, updateProduct, createProduct, deleteProduct,
+  getProducts, getSingleProduct, updateProduct, createProduct, deleteProduct, getProductsBySeller,
 };

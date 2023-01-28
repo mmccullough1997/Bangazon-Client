@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { registerUser } from '../../utils/auth'; // Update with path to registerUser
-import updateCustomer from '../../utils/data/customerData';
+import { updateCustomer } from '../../utils/data/customerData';
 
 const initialCustomerState = {
   firstName: '',

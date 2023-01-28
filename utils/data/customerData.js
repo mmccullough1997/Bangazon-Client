@@ -18,5 +18,27 @@ const updateCustomer = (customerObj, customerId) => new Promise((resolve, reject
     .then(resolve)
     .catch(reject);
 });
+const getSingleCustomer = (customerId) => new Promise((resolve, reject) => {
+  fetch(`${dbUrl}/customers/${customerId}`).then((response) => response.json())
+    .then((data) => {
+      resolve({
+        id: data.id,
+        uid: data.uid,
+        firstName: data.first_name,
+        lastName: data.last_name,
+        bio: data.bio,
+        image: data.image,
+        dateRegistered: data.date_registered,
+      });
+    }).catch((error) => reject(error));
+});
 
-export default updateCustomer;
+const deleteCustomer = (customerId) => new Promise((resolve, reject) => {
+  fetch(`${dbUrl}/customers/${customerId}`, {
+    method: 'DELETE',
+  })
+    .then(resolve)
+    .catch(reject);
+});
+
+export { updateCustomer, getSingleCustomer, deleteCustomer };

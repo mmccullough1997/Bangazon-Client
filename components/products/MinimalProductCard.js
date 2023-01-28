@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable import/no-extraneous-dependencies */
 import * as React from 'react';
 import Card from '@mui/material/Card';
@@ -5,13 +7,15 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 export default function MinimalProductCard({
   image, title, cost, productId,
 }) {
+  const router = useRouter();
+
   return (
-    <Link passHref href={`products/${productId}`}>
+    <div onClick={() => router.push(`/products/${productId}`)}>
       <Card sx={{ maxWidth: 345 }}>
         <CardMedia
           component="img"
@@ -28,7 +32,7 @@ export default function MinimalProductCard({
           </Typography>
         </CardContent>
       </Card>
-    </Link>
+    </div>
   );
 }
 

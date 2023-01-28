@@ -4,16 +4,26 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Card, Button, Form } from 'react-bootstrap';
 import { Avatar, Button as MuiButton } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { useRouter } from 'next/router';
 import { useAuth } from '../../utils/context/authContext';
-import createProductOrder from '../../utils/data/productOrderData';
-import { updateProduct } from '../../utils/data/productData';
+import { createProductOrder } from '../../utils/data/productOrderData';
+import { deleteProduct, updateProduct } from '../../utils/data/productData';
 
 function ProductDetailsCard({ product }) {
   const router = useRouter();
   const { user } = useAuth();
   const [availableQuantity, setAvailableQuantity] = React.useState(1);
   const [desiredQuantity, setDesiredQuantity] = React.useState(1);
+
+  const deleteThisProduct = () => {
+    if (window.confirm(`Are you sure you want to delete ${product.title}?`)) {
+      deleteProduct(product.id).then(() => {
+        router.push('/');
+      });
+    }
+  };
 
   const handleChange = (event) => {
     const { value } = event.target;
@@ -30,7 +40,7 @@ function ProductDetailsCard({ product }) {
       const productObj = product;
       productObj.quantity -= desiredQuantity;
       updateProduct(productObj, productObj.id);
-      router.push('/');
+      router.push('/cart/myCart');
     });
   };
 
@@ -84,9 +94,20 @@ function ProductDetailsCard({ product }) {
                     : <option value={availableQuantity[0]}>{availableQuantity[0]}</option>}
                 </Form.Select>
 
-                <Button type="submit">
-                  Add to Cart
-                </Button>
+                { user.id === product?.seller?.id ? (
+                  <>
+                    <div>Cannot add own item to cart</div>
+                    <Button variant="link" startIcon={<EditIcon />} onClick={() => router.push(`/products/edit/${product.id}`)}>Edit Product</Button>
+                    <Button variant="link" startIcon={<DeleteIcon />} onClick={() => deleteThisProduct(product.id)}>
+                      DELETE
+                    </Button>
+                  </>
+
+                ) : (
+                  <Button type="submit">
+                    Add to Cart
+                  </Button>
+                )}
               </Form>
 
             )}

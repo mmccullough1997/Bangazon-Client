@@ -12,7 +12,7 @@ const getSingleProduct = (productId) => new Promise((resolve, reject) => {
   fetch(`${dbUrl}/products/${productId}`).then((response) => response.json())
     .then((data) => {
       resolve({
-        id: data.id,
+        id: Number(data.id),
         title: data.title,
         cost: data.cost,
         description: data.description,
@@ -24,15 +24,15 @@ const getSingleProduct = (productId) => new Promise((resolve, reject) => {
     }).catch((error) => reject(error));
 });
 
-const updateProduct = (user, product, productId) => new Promise((resolve, reject) => {
+const updateProduct = (product, productId) => new Promise((resolve, reject) => {
   const productObj = {
     title: product.title,
     cost: product.cost,
     description: product.description,
     quantity: product.quantity,
     image: product.image,
-    product_type: product.productType,
-    seller: user.id,
+    product_type: product.productType.id,
+    seller: product.seller.id,
   };
   fetch(`${dbUrl}/products/${productId}`, {
     method: 'PUT',

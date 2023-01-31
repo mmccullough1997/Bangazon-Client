@@ -47,6 +47,14 @@ const updateProductOrder = (user, productOrder, order) => new Promise((resolve, 
     .catch((error) => reject(error));
 });
 
+const deleteProductOrder = (productOrderId) => new Promise((resolve, reject) => {
+  fetch(`${dbUrl}/productorders/${productOrderId}`, {
+    method: 'DELETE',
+  })
+    .then(resolve)
+    .catch(reject);
+});
+
 export {
-  getProductOrders, getProductOrdersByCustomer, createProductOrder, updateProductOrder,
+  getProductOrders, getProductOrdersByCustomer, createProductOrder, updateProductOrder, deleteProductOrder,
 };

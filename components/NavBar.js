@@ -171,7 +171,7 @@ export default function NavBar() {
                 <MenuItem onClick={handleClose}>
                   <MuiButton onClick={signOut}><LogoutIcon /> Sign Out</MuiButton>
                   <Link passHref href={`/customers/${user.id}`}><MuiButton><AccountCircleIcon />Profile</MuiButton></Link>
-                  <Link passHref href="/"><MuiButton><StoreIcon />My Orders</MuiButton></Link>
+                  <Link passHref href="/orders/myOrders"><MuiButton><StoreIcon />My Orders</MuiButton></Link>
                 </MenuItem>
               </Menu>
             </div>

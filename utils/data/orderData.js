@@ -26,4 +26,18 @@ const getOrdersByCustomer = (customerId) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-export { createOrder, getOrdersByCustomer };
+const getSingleOrder = (orderId) => new Promise((resolve, reject) => {
+  fetch(`${dbUrl}/orders/${orderId}`).then((response) => response.json())
+    .then((data) => {
+      resolve({
+        id: Number(data.id),
+        cost: data.cost,
+        paymentType: data.payment_type,
+        customer: data.customer,
+        datePlaced: data.date_placed,
+        productOrders: data.product_orders_on_order,
+      });
+    }).catch((error) => reject(error));
+});
+
+export { createOrder, getOrdersByCustomer, getSingleOrder };

@@ -41,4 +41,12 @@ const deleteCustomer = (customerId) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-export { updateCustomer, getSingleCustomer, deleteCustomer };
+const getCustomers = () => new Promise((resolve, reject) => {
+  fetch(`${dbUrl}/customers`).then((response) => response.json())
+    .then(resolve)
+    .catch(reject);
+});
+
+export {
+  updateCustomer, getSingleCustomer, deleteCustomer, getCustomers,
+};

@@ -40,7 +40,7 @@ function ProductDetailsCard({ product }) {
       const productObj = product;
       productObj.quantity -= desiredQuantity;
       updateProduct(productObj, productObj.id);
-      router.push('/cart/myCart');
+      router.push('/cart/confirmation');
     });
   };
 

@@ -8,7 +8,7 @@ import ProductOrderCard from '../../components/products/ProductOrderCard';
 import { useAuth } from '../../utils/context/authContext';
 import { createOrder, getOrdersByCustomer } from '../../utils/data/orderData';
 import getPaymentTypesByCustomer from '../../utils/data/paymentTypeData';
-import { getProductOrdersByCustomer, updateProductOrder } from '../../utils/data/productOrderData';
+import { deleteProductOrder, getProductOrdersByCustomer, updateProductOrder } from '../../utils/data/productOrderData';
 
 export default function myCart() {
   const [productOrders, setProductOrders] = useState([]);
@@ -34,7 +34,11 @@ export default function myCart() {
     };
     createOrder(order, user).then(() => {
       getOrdersByCustomer(user.id).then((resp) => {
-        productOrders.forEach((productOrder) => {
+        const productOrdersToBeRemoved = productOrders.filter((item) => !reducedCartProductOrders.some((producedOrderToBeRemoved) => producedOrderToBeRemoved.id === item.id));
+        productOrdersToBeRemoved.forEach((productOrder) => {
+          deleteProductOrder(productOrder.id);
+        });
+        reducedCartProductOrders.forEach((productOrder) => {
           updateProductOrder(user, productOrder, resp.slice(-1).pop());
         });
       });
@@ -44,7 +48,12 @@ export default function myCart() {
 
   const reduceProductOrders = (theProductOrders) => {
     const reducedArr = theProductOrders.reduce((acc, cur) => {
-      acc[cur.product.id] ? acc[cur.product.id].quantity += cur.quantity : acc[cur.product.id] = cur;
+      if (acc[cur.product.id]) {
+        acc[cur.product.id].quantity += cur.quantity;
+        acc[cur.product.id].subtotal += cur.subtotal;
+      } else {
+        acc[cur.product.id] = cur;
+      }
       return acc;
     }, {});
     const result = Object.values(reducedArr);

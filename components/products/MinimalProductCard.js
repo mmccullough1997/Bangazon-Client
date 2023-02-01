@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable import/no-extraneous-dependencies */
@@ -37,8 +38,8 @@ export default function MinimalProductCard({
 }
 
 MinimalProductCard.propTypes = {
-  productId: PropTypes.number.isRequired,
-  image: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  cost: PropTypes.string.isRequired,
+  productId: PropTypes.number,
+  image: PropTypes.string,
+  title: PropTypes.string,
+  cost: PropTypes.string,
 };

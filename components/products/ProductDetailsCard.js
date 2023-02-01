@@ -33,14 +33,14 @@ function ProductDetailsCard({ product }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const productOrderObj = {
-      product: product.id,
+      product: Number(product.id),
       quantity: desiredQuantity,
     };
     createProductOrder(productOrderObj, user).then(() => {
       const productObj = product;
       productObj.quantity -= desiredQuantity;
       updateProduct(productObj, productObj.id);
-      router.push('/cart/myCart');
+      router.push('/cart/confirmation');
     });
   };
 

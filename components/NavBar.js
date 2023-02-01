@@ -29,6 +29,7 @@ import StoreIcon from '@mui/icons-material/Store';
 import { useAuth } from '../utils/context/authContext';
 import logo from '../public/bangazon logo nav.png';
 import { signOut } from '../utils/auth';
+import SearchBar from './SearchBar';
 
 const drawerWidth = 240;
 
@@ -139,6 +140,9 @@ export default function NavBar() {
           <div className="bangazonNavLogo">
             <Image src={logo} />
           </div>
+          <Grid container justifyContent="center">
+            <SearchBar />
+          </Grid>
           <Grid container justifyContent="flex-end">
             <div className="topNavIcons">
               <Link passHref href="/cart/myCart">
@@ -213,7 +217,7 @@ export default function NavBar() {
           <hr style={{ color: 'white' }} />
 
           <ListItem disablePadding sx={{ display: 'block' }}>
-            <Link passHref href="/">
+            <Link passHref href="/producttypes">
               <ListItemButton
                 sx={{
                   minHeight: 48,
@@ -230,7 +234,7 @@ export default function NavBar() {
                 >
                   <CategoryIcon style={{ color: 'white' }} />
                 </ListItemIcon>
-                <ListItemText sx={{ opacity: open ? 1 : 0 }}>Product Categories</ListItemText>
+                <ListItemText sx={{ opacity: open ? 1 : 0 }}>Product Types</ListItemText>
               </ListItemButton>
             </Link>
           </ListItem>

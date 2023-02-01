@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 /* eslint-disable prefer-template */
 import Card from '@mui/material/Card';
 import PropTypes from 'prop-types';
@@ -16,7 +17,9 @@ import { useAuth } from '../../utils/context/authContext';
 import { signOut } from '../../utils/auth';
 import { deleteCustomer } from '../../utils/data/customerData';
 
-export default function CustomerCard({ userObj }) {
+export default function CustomerCard({
+  userId, userUid, firstName, lastName, dateRegistered, image, bio,
+}) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const { user } = useAuth();
@@ -31,7 +34,7 @@ export default function CustomerCard({ userObj }) {
 
   const deleteTheUser = () => {
     if (window.confirm('Are you sure you want to delete this?')) {
-      deleteCustomer(userObj.id).then(() => {
+      deleteCustomer(userId).then(() => {
         signOut();
       });
     }
@@ -39,7 +42,7 @@ export default function CustomerCard({ userObj }) {
 
   return (
     <Card sx={{ maxWidth: 500 }}>
-      {user.uid === userObj.uid ? (
+      {user.uid === userUid ? (
         <CardHeader
           action={(
             <>
@@ -69,7 +72,7 @@ export default function CustomerCard({ userObj }) {
                 }}
               >
                 <MenuItem>
-                  <Link className="" href={`/customers/edit/${userObj.id}`} passHref>
+                  <Link className="" href={`/customers/edit/${userId}`} passHref>
                     <IconButton aria-label="edit" className="edit-btn verticalIcon">
                       <EditIcon style={{ color: 'black' }} />
                       Edit
@@ -85,23 +88,23 @@ export default function CustomerCard({ userObj }) {
               </Menu>
             </>
           )}
-          title={userObj.firstName + ' ' + userObj.lastName}
-          subheader={'Created on: ' + userObj.dateRegistered}
+          title={firstName + ' ' + lastName}
+          subheader={'Created on: ' + dateRegistered}
         />
       ) : (
         <CardHeader
-          title={userObj.firstName + ' ' + userObj.lastName}
-          subheader={'Created on: ' + userObj.dateRegistered}
+          title={firstName + ' ' + lastName}
+          subheader={'Created on: ' + dateRegistered}
         />
       )}
       <CardMedia
         component="img"
         height="200"
-        image={userObj.image}
+        image={image}
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          {userObj.bio}
+          {bio}
         </Typography>
       </CardContent>
     </Card>
@@ -109,13 +112,11 @@ export default function CustomerCard({ userObj }) {
 }
 
 CustomerCard.propTypes = {
-  userObj: PropTypes.shape({
-    id: PropTypes.number,
-    uid: PropTypes.string,
-    firstName: PropTypes.string,
-    lastName: PropTypes.string,
-    bio: PropTypes.string,
-    image: PropTypes.string,
-    dateRegistered: PropTypes.string,
-  }).isRequired,
+  userId: PropTypes.number,
+  userUid: PropTypes.string,
+  firstName: PropTypes.string,
+  lastName: PropTypes.string,
+  bio: PropTypes.string,
+  image: PropTypes.string,
+  dateRegistered: PropTypes.string,
 };

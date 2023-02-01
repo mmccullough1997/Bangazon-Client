@@ -36,7 +36,7 @@ export default function ViewSingleCustomer() {
   return (
     <>
       <div>
-        <CustomerCard userObj={customer} />
+        <CustomerCard userId={customer.id} userUid={customer.uid} firstName={customer.firstName} lastName={customer.lastName} dateRegistered={customer.dateRegistered} image={customer.image} bio={customer.bio} />
       </div>
       <hr />
       <div>

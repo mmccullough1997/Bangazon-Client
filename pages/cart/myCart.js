@@ -7,7 +7,7 @@ import { Button, Form } from 'react-bootstrap';
 import ProductOrderCard from '../../components/products/ProductOrderCard';
 import { useAuth } from '../../utils/context/authContext';
 import { createOrder, getOrdersByCustomer } from '../../utils/data/orderData';
-import getPaymentTypesByCustomer from '../../utils/data/paymentTypeData';
+import { getPaymentTypesByCustomer } from '../../utils/data/paymentTypeData';
 import { deleteProductOrder, getProductOrdersByCustomer, updateProductOrder } from '../../utils/data/productOrderData';
 
 export default function myCart() {
@@ -88,7 +88,7 @@ export default function myCart() {
 
   return (
     <div>
-      <h1>My Shopping Cart</h1>
+      <h1><u>My Shopping Cart</u></h1>
       {reducedCartProductOrders.length ? (
         <div>
           <ProductOrderCard productOrders={reducedCartProductOrders} />

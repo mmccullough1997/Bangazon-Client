@@ -70,10 +70,10 @@ function ProductDetailsCard({ product }) {
               <Card.Text>Qty. Available: {product.quantity}</Card.Text>
               <Card.Text><b>About this Item:</b></Card.Text>
               <Card.Text>{product?.description}</Card.Text>
-              <Card.Text>{product.productType?.label}</Card.Text>
+              <Card.Text className="productDetailProductType">{product.productType?.label}</Card.Text>
             </div>
             {product.quantity < 1 ? (
-              <div>Out of Stock</div>
+              <h2 className="detailStyle">Out of Stock</h2>
             ) : (
               <Form onSubmit={handleSubmit}>
                 <Form.Select
@@ -96,10 +96,10 @@ function ProductDetailsCard({ product }) {
 
                 { user.id === product?.seller?.id ? (
                   <>
-                    <div>Cannot add own item to cart</div>
+                    <div className="detailStyle">Cannot add own item to cart</div>
                     <Button variant="link" startIcon={<EditIcon />} onClick={() => router.push(`/products/edit/${product.id}`)}>Edit Product</Button>
                     <Button variant="link" startIcon={<DeleteIcon />} onClick={() => deleteThisProduct(product.id)}>
-                      DELETE
+                      Delete Product
                     </Button>
                   </>
 

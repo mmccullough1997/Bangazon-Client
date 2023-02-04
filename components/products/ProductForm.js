@@ -25,7 +25,7 @@ export default function ProductForm({ productObj, user }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (productObj.id) {
-      updateProduct(user, currentProduct, currentProduct.id).then(() => {
+      updateProduct(currentProduct, currentProduct.id).then(() => {
         router.push('/');
       });
     } else {
@@ -46,7 +46,7 @@ export default function ProductForm({ productObj, user }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === 'productType') {
-      setDesiredProductTypes(value);
+      setDesiredProductTypes(Number(value));
       setCurrentProduct((prevState) => ({
         ...prevState,
         [name]: value,

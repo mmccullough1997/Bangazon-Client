@@ -32,9 +32,10 @@ body {
 }
 
 .bangazonNavLogo {
+
   display:flex;
   height: 40px;
-  width: 40px;
+  width: 80px;
   margin-right: 10px;
   margin-top: 10px;
   margin-bottom: 10px;
@@ -75,4 +76,37 @@ body {
 
 .productOrderCard{
   border: 2px black solid !important;
+}
+
+.searchBar {
+  width: 30rem;
+}
+
+.yapTrackNavLogo {
+  display:flex;
+  height: 40px;
+  width: 80px;
+  margin-right: 10px;
+  margin-top: 10px;
+}
+
+.carouselCaption{
+  color: black;
+  font-size: xx-large;
+}
+
+.carousel{
+  border: 2px solid black;
+}
+
+.productDetailProductType{
+  color: green;
+}
+
+.bangazonExclusiveText{
+  color: red;
+}
+
+.detailStyle {
+  color: red;
 }

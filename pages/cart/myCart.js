@@ -7,7 +7,7 @@ import { Button, Form } from 'react-bootstrap';
 import ProductOrderCard from '../../components/products/ProductOrderCard';
 import { useAuth } from '../../utils/context/authContext';
 import { createOrder, getOrdersByCustomer } from '../../utils/data/orderData';
-import getPaymentTypesByCustomer from '../../utils/data/paymentTypeData';
+import { getPaymentTypesByCustomer } from '../../utils/data/paymentTypeData';
 import { deleteProductOrder, getProductOrdersByCustomer, updateProductOrder } from '../../utils/data/productOrderData';
 
 export default function myCart() {
@@ -24,6 +24,20 @@ export default function myCart() {
   const handleChange = (event) => {
     const { value } = event.target;
     setDesiredPaymentType(value);
+  };
+
+  const reduceProductOrders = (theProductOrders) => {
+    const reducedArr = theProductOrders.reduce((acc, cur) => {
+      if (acc[cur.product.id]) {
+        acc[cur.product.id].quantity += cur.quantity;
+        acc[cur.product.id].subtotal += cur.subtotal;
+      } else {
+        acc[cur.product.id] = cur;
+      }
+      return acc;
+    }, {});
+    const result = Object.values(reducedArr);
+    return result;
   };
 
   const handleSubmit = (e) => {
@@ -46,25 +60,15 @@ export default function myCart() {
     });
   };
 
-  const reduceProductOrders = (theProductOrders) => {
-    const reducedArr = theProductOrders.reduce((acc, cur) => {
-      if (acc[cur.product.id]) {
-        acc[cur.product.id].quantity += cur.quantity;
-        acc[cur.product.id].subtotal += cur.subtotal;
-      } else {
-        acc[cur.product.id] = cur;
-      }
-      return acc;
-    }, {});
-    const result = Object.values(reducedArr);
-    return result;
-  };
-
-  useEffect(() => {
+  const getTheProductOrders = () => {
     getProductOrdersByCustomer(user.id).then((productOrder) => {
       const nullOrders = productOrder.filter((productOrderArray) => productOrderArray.order === null);
       setProductOrders(nullOrders);
     });
+  };
+
+  useEffect(() => {
+    getTheProductOrders();
     getPaymentTypesByCustomer(user.id).then(setAvailablePaymentTypes);
   }, []);
 
@@ -84,7 +88,7 @@ export default function myCart() {
 
   return (
     <div>
-      <h1>My Shopping Cart</h1>
+      <h1><u>My Shopping Cart</u></h1>
       {reducedCartProductOrders.length ? (
         <div>
           <ProductOrderCard productOrders={reducedCartProductOrders} />
@@ -112,7 +116,7 @@ export default function myCart() {
               ? availablePaymentTypes?.map((paymentType) => (
                 <option key={paymentType.id} value={paymentType.id}>{paymentType.label}</option>
               ))
-              : <option value={availablePaymentTypes[0].id}>{availablePaymentTypes[0].label}</option>}
+              : <option value={availablePaymentTypes[0]?.id}>{availablePaymentTypes[0]?.label}</option>}
           </Form.Select>
 
           <Button type="submit">

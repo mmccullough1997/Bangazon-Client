@@ -9,18 +9,18 @@ export default function ProductCarousel({ shuffledProducts }) {
   const router = useRouter();
 
   return (
-    <Carousel>
+    <Carousel className="carousel">
       {shuffledProducts.map((shuffledProduct) => (
         <Carousel.Item key={shuffledProduct.id} className="carousel" onClick={() => router.push(`/products/${shuffledProduct.id}`)}>
           <img
-            className="d-block w-100"
+            className="d-block w-80"
             src={shuffledProduct.image}
             alt="First slide"
             height="300"
           />
-          <Carousel.Caption>
+          <Carousel.Caption className="carouselCaption">
             <h3>{shuffledProduct.title}</h3>
-            <p>A Bangazon Exclusive</p>
+            <p className="bangazonExclusiveText">A Bangazon Exclusive</p>
           </Carousel.Caption>
         </Carousel.Item>
       ))}

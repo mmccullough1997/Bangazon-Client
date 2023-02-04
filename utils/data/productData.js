@@ -31,7 +31,7 @@ const updateProduct = (product, productId) => new Promise((resolve, reject) => {
     description: product.description,
     quantity: product.quantity,
     image: product.image,
-    product_type: product.productType.id,
+    product_type: Number(product.productType.id),
     seller: product.seller.id,
   };
   fetch(`${dbUrl}/products/${productId}`, {

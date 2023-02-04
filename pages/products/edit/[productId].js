@@ -14,8 +14,6 @@ export default function EditProduct() {
     getSingleProduct(productId).then(setProduct);
   }, [productId]);
 
-  console.warn(product);
-
   return (
     <ProductForm productObj={product} user={user} />
   );

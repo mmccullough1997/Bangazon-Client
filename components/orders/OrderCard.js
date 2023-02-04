@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/require-default-props */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import MinimalProductCard from '../products/MinimalProductCard';
@@ -7,6 +8,29 @@ import MinimalProductCard from '../products/MinimalProductCard';
 export default function OrderCard({
   orderId, datePlaced, productOrders, cost,
 }) {
+  const [reducedProductOrders, setReducedProductOrders] = useState([]);
+
+  const reduceProductOrders = (theProductOrders) => {
+    if (theProductOrders.length) {
+      const reducedArr = theProductOrders?.reduce((acc, cur) => {
+        if (acc[cur.product.id]) {
+          acc[cur.product.id].quantity += cur.quantity;
+          acc[cur.product.id].subtotal += cur.subtotal;
+        } else {
+          acc[cur.product.id] = cur;
+        }
+        return acc;
+      }, {});
+      const result = Object.values(reducedArr);
+      return result;
+    }
+    return theProductOrders;
+  };
+
+  useEffect(() => {
+    setReducedProductOrders(reduceProductOrders(productOrders));
+  }, []);
+
   return (
     <div>
       <Card>
@@ -17,7 +41,7 @@ export default function OrderCard({
           </div>
         </Card.Header>
         <Card.Body>
-          {productOrders?.map((productOrder) => (
+          {reducedProductOrders?.map((productOrder) => (
             <MinimalProductCard image={productOrder?.product?.image} title={productOrder?.product?.title} cost={productOrder?.product?.cost} productId={productOrder?.product?.id} />
           ))}
         </Card.Body>

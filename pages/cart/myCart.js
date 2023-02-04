@@ -26,6 +26,20 @@ export default function myCart() {
     setDesiredPaymentType(value);
   };
 
+  const reduceProductOrders = (theProductOrders) => {
+    const reducedArr = theProductOrders.reduce((acc, cur) => {
+      if (acc[cur.product.id]) {
+        acc[cur.product.id].quantity += cur.quantity;
+        acc[cur.product.id].subtotal += cur.subtotal;
+      } else {
+        acc[cur.product.id] = cur;
+      }
+      return acc;
+    }, {});
+    const result = Object.values(reducedArr);
+    return result;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const order = {
@@ -46,25 +60,15 @@ export default function myCart() {
     });
   };
 
-  const reduceProductOrders = (theProductOrders) => {
-    const reducedArr = theProductOrders.reduce((acc, cur) => {
-      if (acc[cur.product.id]) {
-        acc[cur.product.id].quantity += cur.quantity;
-        acc[cur.product.id].subtotal += cur.subtotal;
-      } else {
-        acc[cur.product.id] = cur;
-      }
-      return acc;
-    }, {});
-    const result = Object.values(reducedArr);
-    return result;
-  };
-
-  useEffect(() => {
+  const getTheProductOrders = () => {
     getProductOrdersByCustomer(user.id).then((productOrder) => {
       const nullOrders = productOrder.filter((productOrderArray) => productOrderArray.order === null);
       setProductOrders(nullOrders);
     });
+  };
+
+  useEffect(() => {
+    getTheProductOrders();
     getPaymentTypesByCustomer(user.id).then(setAvailablePaymentTypes);
   }, []);
 
@@ -112,7 +116,7 @@ export default function myCart() {
               ? availablePaymentTypes?.map((paymentType) => (
                 <option key={paymentType.id} value={paymentType.id}>{paymentType.label}</option>
               ))
-              : <option value={availablePaymentTypes[0].id}>{availablePaymentTypes[0].label}</option>}
+              : <option value={availablePaymentTypes[0]?.id}>{availablePaymentTypes[0]?.label}</option>}
           </Form.Select>
 
           <Button type="submit">
